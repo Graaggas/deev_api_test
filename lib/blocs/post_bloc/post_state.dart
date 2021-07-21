@@ -7,11 +7,11 @@ abstract class PostState extends Equatable {
   List<Object> get props => [];
 }
 
-class PostInitialState extends PostState {}
+class PostsInitialState extends PostState {}
 
 class PostLoadInProgressState extends PostState {}
 
-class PostLoadFailureState extends PostState {}
+class PostsLoadFailureState extends PostState {}
 
 class PostLoadSuccessState extends PostState {
   final List<Post> postList;

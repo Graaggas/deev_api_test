@@ -21,20 +21,18 @@ class PostRepo {
     Set<String>? checkingDataFromSharedPref = sharedPreferences.getKeys();
 
     if (checkingDataFromSharedPref.isNotEmpty &&
-        checkingDataFromSharedPref.contains("postId")) {
+        checkingDataFromSharedPref
+            .any((element) => element.contains("postId"))) {
       // print("FROM SH_PREF: " + checkingDataFromSharedPref.toString());
 
       List<Post> listFromShPref = [];
 
       checkingDataFromSharedPref.forEach((element) {
-        print("element = $element");
         if (element.contains("postId")) {
-          print("this is post, $element");
           String? res = sharedPreferences.getString(element);
           Map<String, dynamic> decoded = jsonDecode(res!);
-          print("post data in sh_pref = " + decoded.values.toString());
           listFromShPref.add(Post.fromJson(decoded));
-          print("~added post from sh_pref ${Post.fromJson(decoded).title}");
+          // print("~added post from sh_pref ${Post.fromJson(decoded).title}");
         }
       });
 
@@ -49,7 +47,7 @@ class PostRepo {
         await sharedPreferences.setString(key, value);
       });
 
-      print("POST FROM API: " + postsFromAPI.toString());
+      // print("POST FROM API: " + postsFromAPI.toString());
 
       return getPostsByUserId(id, postsFromAPI);
     }
@@ -62,6 +60,8 @@ List<Post> getPostsByUserId(int id, List<Post> listFromBase) {
   listFromBase.forEach((element) {
     if (element.userId == id) {
       postByUser.add(element);
+      // print(
+      //     "Post title [userId: ${element.userId.toString()}]: ${element.title}");
     }
   });
 

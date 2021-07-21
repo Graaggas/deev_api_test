@@ -1,5 +1,7 @@
 import 'package:deev_api_test/models/user.dart';
 import 'package:deev_api_test/screens/main_screen.dart';
+import 'package:deev_api_test/screens/opened_post_screen.dart';
+import 'package:deev_api_test/screens/posts_page.dart';
 import 'package:deev_api_test/screens/user_details_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -10,10 +12,28 @@ class RouteGenerator {
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(builder: (_) => MainScreen());
+
       case '/user_details_screen':
         if (args is User) {
           return MaterialPageRoute(
             builder: (_) => UserDetailsScreen(user: args),
+          );
+        }
+        return _errorRoute();
+
+      case '/posts_page_screen':
+        if (args is int) {
+          return MaterialPageRoute(
+            builder: (_) => PostsPage(userId: args),
+          );
+        }
+
+        return _errorRoute();
+
+      case '/opened_post_screen':
+        if (args is int) {
+          return MaterialPageRoute(
+            builder: (_) => OpenedPostScreen(postId: args),
           );
         }
 

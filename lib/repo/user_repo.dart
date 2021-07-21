@@ -21,20 +21,19 @@ class UserRepo {
     Set<String>? checkingDataFromSharedPref = sharedPreferences.getKeys();
 
     if (checkingDataFromSharedPref.isNotEmpty &&
-        checkingDataFromSharedPref.contains("userId")) {
+        checkingDataFromSharedPref
+            .any((element) => element.contains("userId"))) {
       // print("FROM SH_PREF: " + checkingDataFromSharedPref.toString());
 
       List<User> listFromShPref = [];
 
       checkingDataFromSharedPref.forEach((element) {
-        // print("element = $element");
         if (element.contains("userId")) {
-          print("this is user, $element");
           String? res = sharedPreferences.getString(element);
           Map<String, dynamic> decoded = jsonDecode(res!);
           // print("data in sh_pref = " + decoded.values.toString());
           listFromShPref.add(User.fromJson(decoded));
-          print("~added user from sh_pref: ${User.fromJson(decoded).name}");
+          // print("~added user from sh_pref: ${User.fromJson(decoded).name}");
         }
       });
 
@@ -49,7 +48,7 @@ class UserRepo {
         await sharedPreferences.setString(key, value);
       });
 
-      print("USER FROM API: " + usersFromAPI.toString());
+      // print("USER FROM API: " + usersFromAPI.toString());
 
       return usersFromAPI;
     }

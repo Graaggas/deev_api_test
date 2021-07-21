@@ -10,7 +10,7 @@ part 'post_state.dart';
 
 class PostBloc extends Bloc<PostEvent, PostState> {
   final PostRepo postRepo;
-  PostBloc({required this.postRepo}) : super(PostInitialState());
+  PostBloc({required this.postRepo}) : super(PostsInitialState());
 
   @override
   Stream<PostState> mapEventToState(
@@ -22,8 +22,11 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         final List<Post> postsList = await postRepo.getPosts(event.userId);
         yield PostLoadSuccessState(postList: postsList);
       } catch (e) {
-        yield PostLoadFailureState();
+        yield PostsLoadFailureState();
       }
+    }
+    if (event is PostSetInitialEvent) {
+      yield PostsInitialState();
     }
   }
 }

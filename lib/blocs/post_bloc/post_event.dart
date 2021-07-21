@@ -17,3 +17,10 @@ class PostRequestedEvent extends PostEvent {
         userId,
       ];
 }
+
+class PostSetInitialEvent extends PostEvent {
+  PostSetInitialEvent();
+
+  @override
+  List<Object> get props => [];
+}

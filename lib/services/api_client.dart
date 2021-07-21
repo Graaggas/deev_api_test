@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:deev_api_test/models/comment.dart';
 import 'package:deev_api_test/models/post.dart';
 import 'package:deev_api_test/models/user.dart';
 import 'package:http/http.dart' as http;
@@ -40,5 +41,20 @@ class APIClient {
         .map((e) => Post.fromJson(e))
         .toList();
     return postList;
+  }
+
+  Future<List<Comment>> fetchComments() async {
+    final mainUrl = '$baseUrl/comments';
+
+    final commentsResponse = await this.httpClient.get(Uri.parse(mainUrl));
+
+    if (commentsResponse.statusCode != 200) {
+      throw Exception("error getting comments");
+    }
+
+    List<Comment> commentsList = (json.decode(commentsResponse.body) as List)
+        .map((e) => Comment.fromJson(e))
+        .toList();
+    return commentsList;
   }
 }

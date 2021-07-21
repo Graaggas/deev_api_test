@@ -12,6 +12,8 @@ class UserDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<PostBloc>(context).add(PostRequestedEvent(userId: user.id));
+    print("== add post requesting event");
     return Scaffold(
       appBar: AppBar(
         title: Text(user.username),
@@ -261,7 +263,10 @@ class UserDetailsScreen extends StatelessWidget {
                     Text("Posts"),
                     Spacer(),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pushNamed('/posts_page_screen',
+                            arguments: user.id);
+                      },
                       child: Text("View all"),
                       style: ElevatedButton.styleFrom(
                         primary: Colors.grey,
@@ -270,12 +275,10 @@ class UserDetailsScreen extends StatelessWidget {
                   ],
                 ),
               ),
-
-              BlocBuilder<PostBloc, PostState>(builder: (context, state) {
-                if (state is PostInitialState) {
-                  BlocProvider.of<PostBloc>(context).add(PostRequestedEvent(
-                    userId: user.id,
-                  ));
+              BlocConsumer<PostBloc, PostState>(listener: (context, state) {
+                // print("listener, state is ${state.toString()}");
+              }, builder: (context, state) {
+                if (state is PostsInitialState) {
                   return Center(
                     child: JumpingDotsProgressIndicator(
                       color: Colors.black,
@@ -337,26 +340,34 @@ class UserDetailsScreen extends StatelessWidget {
                         );
                       });
                 }
-                if (state is PostLoadFailureState) {
+                if (state is PostsLoadFailureState) {
                   return Center(
                     child: Text("Error loading"),
                   );
                 }
                 return Container();
               }),
-
-              // Container(
-              //   width: double.infinity,
-              //   decoration: BoxDecoration(
-              //     color: Colors.black26,
-              //     border: Border.all(
-              //       color: Colors.black26,
-              //       width: 1,
-              //     ),
-              //     borderRadius: BorderRadius.circular(4),
-              //   ),
-              //   child: Text("111"),
-              // ),
+              SizedBox(
+                height: 30,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text("Albums"),
+                    Spacer(),
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: Text("View all"),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
