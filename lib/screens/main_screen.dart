@@ -9,6 +9,9 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Deev API Test"),
+      ),
       body: BlocBuilder<UserBloc, UserBlocState>(
         builder: (context, state) {
           if (state is UserBlocInitialState) {
