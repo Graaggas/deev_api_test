@@ -14,8 +14,12 @@ class MainScreen extends StatelessWidget {
       ),
       body: BlocBuilder<UserBloc, UserBlocState>(
         builder: (context, state) {
+          if (state is UserBlocLoadFailureState) {
+            return Center(
+              child: Text("ERROR LOADING"),
+            );
+          }
           if (state is UserBlocInitialState) {
-            print("initial state ...");
             BlocProvider.of<UserBloc>(context).add(UserBlocRequestedEvent());
             return Center(
               child: JumpingDotsProgressIndicator(
