@@ -26,5 +26,15 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
         yield CommentsoadFailureState();
       }
     }
+
+    if (event is CommentPostEvent) {
+      yield CommentPostInProgressState();
+      try {
+        await commentRepo.postComment(event.comment);
+        yield CommentsPostSuccessState();
+      } catch (e) {
+        yield CommentsPostFailureState();
+      }
+    }
   }
 }

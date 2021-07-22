@@ -17,3 +17,13 @@ class CommentsRequestedEvent extends CommentsEvent {
         postId,
       ];
 }
+
+class CommentPostEvent extends CommentsEvent {
+  final Comment comment;
+
+  CommentPostEvent({required this.comment});
+  @override
+  List<Object> get props => [
+        comment,
+      ];
+}

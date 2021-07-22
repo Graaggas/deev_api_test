@@ -57,4 +57,22 @@ class APIClient {
         .toList();
     return commentsList;
   }
+
+  Future<bool> postComment(Comment comment) async {
+    final mainUrl = '$baseUrl/comments';
+
+    final postCommentResponse = await http.post(
+      Uri.parse(mainUrl),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(comment.toJson()),
+    );
+
+    if (postCommentResponse.statusCode == 201) {
+      return true;
+    } else {
+      throw Exception('Failed to create comment.');
+    }
+  }
 }

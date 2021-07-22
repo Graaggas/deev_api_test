@@ -23,3 +23,9 @@ class CommentsLoadSuccessState extends CommentsState {
         commentList,
       ];
 }
+
+class CommentPostInProgressState extends CommentsState {}
+
+class CommentsPostFailureState extends CommentsState {}
+
+class CommentsPostSuccessState extends CommentsState {}

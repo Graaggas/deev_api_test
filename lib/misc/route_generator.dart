@@ -1,4 +1,5 @@
 import 'package:deev_api_test/models/user.dart';
+import 'package:deev_api_test/screens/create_comment.dart';
 import 'package:deev_api_test/screens/main_screen.dart';
 import 'package:deev_api_test/screens/opened_post_screen.dart';
 import 'package:deev_api_test/screens/posts_page.dart';
@@ -38,6 +39,16 @@ class RouteGenerator {
         }
 
         return _errorRoute();
+
+      case '/create_comment_screen':
+        if (args is int) {
+          return MaterialPageRoute(
+            fullscreenDialog: true,
+            builder: (_) => CreateCommentPage(postId: args),
+          );
+        }
+        return _errorRoute();
+
       default:
         return _errorRoute();
     }

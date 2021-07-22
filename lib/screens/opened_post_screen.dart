@@ -161,7 +161,12 @@ class OpenedPostScreen extends StatelessWidget {
                       },
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(
+                          '/create_comment_screen',
+                          arguments: postId,
+                        );
+                      },
                       child: Text("Add Comment"),
                       style: ElevatedButton.styleFrom(
                         primary: Colors.grey,

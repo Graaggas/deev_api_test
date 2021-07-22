@@ -11,6 +11,19 @@ class CommentRepo {
     required this.apiClient,
   });
 
+  Future<void> postComment(Comment comment) async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+
+    var flagCreateCommentSuccess = await apiClient.postComment(comment);
+    print("posting in api server: ${flagCreateCommentSuccess.toString()}");
+
+    String value = jsonEncode(comment.toJson());
+    String key = "commentId:" + comment.id.toString();
+
+    await sharedPreferences.setString(key, value);
+  }
+
   Future<List<Comment>> getComments(int postId) async {
     print("==> COMMENTREPO");
 
