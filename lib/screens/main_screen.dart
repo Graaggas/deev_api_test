@@ -1,3 +1,4 @@
+import 'package:deev_api_test/blocs/album_bloc/album_bloc.dart';
 import 'package:deev_api_test/blocs/user_bloc/user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +22,7 @@ class MainScreen extends StatelessWidget {
           }
           if (state is UserBlocInitialState) {
             BlocProvider.of<UserBloc>(context).add(UserBlocRequestedEvent());
+
             return Center(
               child: JumpingDotsProgressIndicator(
                 color: Colors.black,

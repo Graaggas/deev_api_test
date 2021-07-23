@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:deev_api_test/models/album.dart';
 import 'package:deev_api_test/models/comment.dart';
+import 'package:deev_api_test/models/photo.dart';
 import 'package:deev_api_test/models/post.dart';
 import 'package:deev_api_test/models/user.dart';
 import 'package:http/http.dart' as http;
@@ -11,6 +13,36 @@ class APIClient {
   final http.Client httpClient;
 
   APIClient({required this.httpClient});
+
+  Future<List<AlbumPhoto>> fetchAlbums(int userId) async {
+    final mainUrl = '$baseUrl/albums?userId=$userId';
+    final albumsResponse = await this.httpClient.get(Uri.parse(mainUrl));
+
+    if (albumsResponse.statusCode != 200) {
+      throw Exception('error getting albums');
+    }
+
+    List<AlbumPhoto> albumList = (json.decode(albumsResponse.body) as List)
+        .map((e) => AlbumPhoto.fromJson(e))
+        .toList();
+
+    return albumList;
+  }
+
+  Future<List<Photo>> fetchPhotos() async {
+    final mainUrl = '$baseUrl/photos';
+    final photosResponse = await this.httpClient.get(Uri.parse(mainUrl));
+
+    if (photosResponse.statusCode != 200) {
+      throw Exception('error getting photo');
+    }
+
+    List<Photo> photoList = (json.decode(photosResponse.body) as List)
+        .map((e) => Photo.fromJson(e))
+        .toList();
+
+    return photoList;
+  }
 
   Future<List<User>> fetchUsers() async {
     final mainUrl = '$baseUrl/users';
@@ -28,8 +60,8 @@ class APIClient {
     return usersList;
   }
 
-  Future<List<Post>> fetchPosts() async {
-    final mainUrl = '$baseUrl/posts';
+  Future<List<Post>> fetchPosts(int userId) async {
+    final mainUrl = '$baseUrl/posts?userId=$userId';
 
     final postsResponse = await this.httpClient.get(Uri.parse(mainUrl));
 
@@ -43,8 +75,8 @@ class APIClient {
     return postList;
   }
 
-  Future<List<Comment>> fetchComments() async {
-    final mainUrl = '$baseUrl/comments';
+  Future<List<Comment>> fetchComments(int postId) async {
+    final mainUrl = '$baseUrl/comments?postId=$postId';
 
     final commentsResponse = await this.httpClient.get(Uri.parse(mainUrl));
 

@@ -1,6 +1,9 @@
+import 'package:deev_api_test/blocs/album_bloc/album_bloc.dart';
+import 'package:deev_api_test/blocs/photo_bloc/photo_bloc.dart';
 import 'package:deev_api_test/blocs/post_bloc/post_bloc.dart';
 import 'package:deev_api_test/models/post.dart';
 import 'package:deev_api_test/models/user.dart';
+import 'package:deev_api_test/screens/photo_miniatures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:progress_indicators/progress_indicators.dart';
@@ -13,7 +16,8 @@ class UserDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<PostBloc>(context).add(PostRequestedEvent(userId: user.id));
-    print("== add post requesting event");
+    BlocProvider.of<AlbumBloc>(context)
+        .add(AlbumForUserRequestedEvent(userId: user.id));
     return Scaffold(
       appBar: AppBar(
         title: Text(user.username),
@@ -368,6 +372,88 @@ class UserDetailsScreen extends StatelessWidget {
                   ],
                 ),
               ),
+              BlocBuilder<AlbumBloc, AlbumState>(builder: (context, state) {
+                if (state is AlbumsInitialState) {
+                  return Center(
+                    child: JumpingDotsProgressIndicator(
+                      color: Colors.black,
+                      fontSize: 24,
+                    ),
+                  );
+                }
+                if (state is AlbumLoadInProgressState) {
+                  return Center(
+                    child: JumpingText(
+                      'Loading...',
+                    ),
+                  );
+                }
+                if (state is AlbumForUserLoadSuccessState) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GridView.builder(
+                      itemCount: 1,
+                      shrinkWrap: true,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3, crossAxisSpacing: 8),
+                      itemBuilder: (context, index) {
+                        return PhotoMiniatures(
+                            albumId: state.albumList[index].id);
+                        // BlocProvider.of<PhotoBloc>(context).add(
+                        //     PhotoRequestedEvent(
+                        //         albumId: state.albumList[index].id));
+
+                        // return Container(
+                        //   width: double.infinity,
+                        //   decoration: BoxDecoration(
+                        //     color: Colors.black26,
+                        //     border: Border.all(
+                        //       color: Colors.black26,
+                        //       width: 1,
+                        //     ),
+                        //     borderRadius: BorderRadius.circular(4),
+                        //   ),
+                        //   child: BlocConsumer<PhotoBloc, PhotoState>(
+                        //     listener: (context, state) {
+                        //       print("LISTENER");
+                        //     },
+                        //     builder: (context, state) {
+                        //       if (state is PhotoLoadSuccessState) {
+                        //         return Text(
+                        //             state.photoList[index].id.toString());
+                        //       }
+                        //       if (state is PhotoInitial) {
+                        //         return Center(
+                        //           child: JumpingDotsProgressIndicator(
+                        //             color: Colors.black,
+                        //             fontSize: 24,
+                        //           ),
+                        //         );
+                        //       }
+                        //       if (state is PhotoLoadInProgressState) {
+                        //         return Center(
+                        //           child: JumpingText(
+                        //             'Loading...',
+                        //           ),
+                        //         );
+                        //       }
+                        //       if (state is PhotoLsoadFailureState) {
+                        //         return Center(
+                        //           child: Text("Error loading"),
+                        //         );
+                        //       }
+
+                        //       return Container();
+                        //     },
+                        //   ),
+                        // );
+                      },
+                    ),
+                  );
+                }
+
+                return Container();
+              }),
             ],
           ),
         ),

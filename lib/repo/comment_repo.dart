@@ -25,7 +25,7 @@ class CommentRepo {
   }
 
   Future<List<Comment>> getComments(int postId) async {
-    print("==> COMMENTREPO");
+    print("==> COMMENTREPO, postId = $postId");
 
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
@@ -33,10 +33,8 @@ class CommentRepo {
     //? checking data at sh_pref
     Set<String>? checkingDataFromSharedPref = sharedPreferences.getKeys();
 
-    if (checkingDataFromSharedPref.isNotEmpty &&
-        checkingDataFromSharedPref
-            .any((element) => element.contains("commentId"))) {
-      // print("FROM SH_PREF: " + checkingDataFromSharedPref.toString());
+    if (checkingDataFromSharedPref.isNotEmpty) {
+      // print("COMMENTS FROM SH_PREF: " + checkingDataFromSharedPref.toString());
 
       List<Comment> listFromShPref = [];
 
@@ -44,15 +42,25 @@ class CommentRepo {
         if (element.contains("commentId")) {
           String? res = sharedPreferences.getString(element);
           Map<String, dynamic> decoded = jsonDecode(res!);
-          listFromShPref.add(Comment.fromJson(decoded));
-          // print(
-          //     "~added comment from sh_pref ${Comment.fromJson(decoded).name}");
+          for (var item in decoded.entries) {
+            if (item.key == "postId" && item.value == postId) {
+              listFromShPref.add(Comment.fromJson(decoded));
+            }
+          }
         }
       });
 
-      return getCommentsByPostId(postId, listFromShPref);
+      if (listFromShPref.isEmpty) {
+        List<Comment> list = await getCommentListFromAPIAndSaveAtShPref(
+            apiClient, postId, sharedPreferences);
+
+        return getCommentsByPostIdFromBaseAndTranslateToUI(postId, list);
+      } else {
+        return getCommentsByPostIdFromBaseAndTranslateToUI(
+            postId, listFromShPref);
+      }
     } else {
-      var commentsFromAPI = await apiClient.fetchComments();
+      var commentsFromAPI = await apiClient.fetchComments(postId);
 
       commentsFromAPI.forEach((element) async {
         String value = jsonEncode(element.toJson());
@@ -61,23 +69,38 @@ class CommentRepo {
         await sharedPreferences.setString(key, value);
       });
 
-      // print("POST FROM API: " + commentsFromAPI.toString());
+      print("COMMENTS FROM API: " + commentsFromAPI.toString());
 
-      return getCommentsByPostId(postId, commentsFromAPI);
+      return getCommentsByPostIdFromBaseAndTranslateToUI(
+          postId, commentsFromAPI);
     }
   }
 }
 
-List<Comment> getCommentsByPostId(int id, List<Comment> listFromBase) {
+List<Comment> getCommentsByPostIdFromBaseAndTranslateToUI(
+    int id, List<Comment> listFromBase) {
   List<Comment> commentsByPost = [];
 
   listFromBase.forEach((element) {
     if (element.postId == id) {
       commentsByPost.add(element);
-      // print(
-      //     "Comment [postid: ${element.postId.toString()}]: ${element.id}: ${element.name}");
     }
   });
 
   return commentsByPost;
+}
+
+Future<List<Comment>> getCommentListFromAPIAndSaveAtShPref(
+    APIClient apiClient, int id, SharedPreferences sharedPreferences) async {
+  var commentFromAPI = await apiClient.fetchComments(id);
+
+  commentFromAPI.forEach((element) async {
+    String value = jsonEncode(element.toJson());
+    String key = "commentId:" + element.id.toString();
+
+    await sharedPreferences.setString(key, value);
+  });
+
+  // print("POST FROM API: " + postsFromAPI.toString());
+  return commentFromAPI;
 }
