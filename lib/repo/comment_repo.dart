@@ -87,6 +87,9 @@ List<Comment> getCommentsByPostIdFromBaseAndTranslateToUI(
     }
   });
 
+  commentsByPost.sort((a, b) {
+    return a.id.compareTo(b.id);
+  });
   return commentsByPost;
 }
 

@@ -12,28 +12,8 @@ class AlbumRepo {
     required this.apiClient,
   });
 
-  Future<List<AlbumPhoto>> getAlbumForUser(int userId) async {
-    print("==> ALBUMREPO/ForUser");
-
-    List<AlbumPhoto> listFromShPref = [];
-
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
-    Set<String>? checkingDataFromSharedPref = sharedPreferences.getKeys();
-    checkingDataFromSharedPref.forEach((element) {
-      if (element.contains("albumId")) {
-        String? res = sharedPreferences.getString(element);
-        Map<String, dynamic> decoded = jsonDecode(res!);
-        // print("data in sh_pref = " + decoded.values.toString());
-        listFromShPref.add(AlbumPhoto.fromJson(decoded));
-      }
-    });
-
-    return getAlbumsByUserId(userId, listFromShPref);
-  }
-
   Future<List<AlbumPhoto>> getAlbums(int userId) async {
-    print("==> ALBUMREPO");
+    print("==> ALBUMREPO, userId=$userId");
 
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
@@ -41,9 +21,7 @@ class AlbumRepo {
     //? checking data at sh_pref
     Set<String>? checkingDataFromSharedPref = sharedPreferences.getKeys();
 
-    if (checkingDataFromSharedPref.isNotEmpty &&
-        checkingDataFromSharedPref
-            .any((element) => element.contains("albumId"))) {
+    if (checkingDataFromSharedPref.isNotEmpty) {
       // print("ALBUM FROM SH_PREF: " + checkingDataFromSharedPref.toString());
 
       List<AlbumPhoto> listFromShPref = [];
@@ -53,13 +31,23 @@ class AlbumRepo {
           String? res = sharedPreferences.getString(element);
           Map<String, dynamic> decoded = jsonDecode(res!);
           // print("data in sh_pref = " + decoded.values.toString());
-          listFromShPref.add(AlbumPhoto.fromJson(decoded));
-          // print(
-          //     "~added album from sh_pref: ${AlbumPhoto.fromJson(decoded).title}");
+          for (var item in decoded.entries) {
+            if (item.key == "userId" && item.value == userId) {
+              listFromShPref.add(AlbumPhoto.fromJson(decoded));
+            }
+          }
         }
       });
 
-      return listFromShPref;
+      if (listFromShPref.isEmpty) {
+        List<AlbumPhoto> list = await getAlbumListFromAPIAndSaveAtShPref(
+            apiClient, userId, sharedPreferences);
+
+        return getAlbumsByUserIdFromBaseAndTranslateToUI(userId, list);
+      } else {
+        return getAlbumsByUserIdFromBaseAndTranslateToUI(
+            userId, listFromShPref);
+      }
     } else {
       var albumsFromAPI = await apiClient.fetchAlbums(userId);
 
@@ -77,16 +65,35 @@ class AlbumRepo {
   }
 }
 
-List<AlbumPhoto> getAlbumsByUserId(int userId, List<AlbumPhoto> listFromBase) {
-  List<AlbumPhoto> AlbumByUser = [];
+List<AlbumPhoto> getAlbumsByUserIdFromBaseAndTranslateToUI(
+    int userId, List<AlbumPhoto> listFromBase) {
+  List<AlbumPhoto> albumByUser = [];
 
   listFromBase.forEach((element) {
     if (element.userId == userId) {
-      AlbumByUser.add(element);
+      albumByUser.add(element);
       // print(
       //     "Post title [userId: ${element.userId.toString()}]: ${element.title}");
     }
   });
 
-  return AlbumByUser;
+  albumByUser.sort((a, b) {
+    return a.id.compareTo(b.id);
+  });
+  return albumByUser;
+}
+
+Future<List<AlbumPhoto>> getAlbumListFromAPIAndSaveAtShPref(
+    APIClient apiClient, int id, SharedPreferences sharedPreferences) async {
+  var albumFromAPI = await apiClient.fetchAlbums(id);
+
+  albumFromAPI.forEach((element) async {
+    String value = jsonEncode(element.toJson());
+    String key = "albumId:" + element.id.toString();
+
+    await sharedPreferences.setString(key, value);
+  });
+
+  // print("POST FROM API: " + postsFromAPI.toString());
+  return albumFromAPI;
 }

@@ -29,8 +29,8 @@ class APIClient {
     return albumList;
   }
 
-  Future<List<Photo>> fetchPhotos() async {
-    final mainUrl = '$baseUrl/photos';
+  Future<List<Photo>> fetchPhotos(int albumId) async {
+    final mainUrl = '$baseUrl/photos?albumId=$albumId';
     final photosResponse = await this.httpClient.get(Uri.parse(mainUrl));
 
     if (photosResponse.statusCode != 200) {

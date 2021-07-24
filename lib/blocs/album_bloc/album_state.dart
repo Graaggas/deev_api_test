@@ -23,20 +23,3 @@ class AlbumLoadSuccessState extends AlbumState {
         albumList,
       ];
 }
-
-class AlbumForUserInitialState extends AlbumState {}
-
-class AlbumForUserLoadInProgressState extends AlbumState {}
-
-class AlbumForUserLsoadFailureState extends AlbumState {}
-
-class AlbumForUserLoadSuccessState extends AlbumState {
-  final List<AlbumPhoto> albumList;
-
-  AlbumForUserLoadSuccessState({required this.albumList});
-
-  @override
-  List<Object> get props => [
-        albumList,
-      ];
-}

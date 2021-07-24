@@ -11,11 +11,10 @@ class PhotoInitial extends PhotoState {}
 
 class PhotoLoadInProgressState extends PhotoState {}
 
-class PhotoLsoadFailureState extends PhotoState {}
+class PhotoLoadFailureState extends PhotoState {}
 
 class PhotoLoadSuccessState extends PhotoState {
   final List<Photo> photoList;
-
   PhotoLoadSuccessState({required this.photoList});
 
   @override

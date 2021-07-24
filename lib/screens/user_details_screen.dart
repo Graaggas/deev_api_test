@@ -1,7 +1,7 @@
 import 'package:deev_api_test/blocs/album_bloc/album_bloc.dart';
-import 'package:deev_api_test/blocs/photo_bloc/photo_bloc.dart';
+
 import 'package:deev_api_test/blocs/post_bloc/post_bloc.dart';
-import 'package:deev_api_test/models/post.dart';
+
 import 'package:deev_api_test/models/user.dart';
 import 'package:deev_api_test/screens/photo_miniatures.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ class UserDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     BlocProvider.of<PostBloc>(context).add(PostRequestedEvent(userId: user.id));
     BlocProvider.of<AlbumBloc>(context)
-        .add(AlbumForUserRequestedEvent(userId: user.id));
+        .add(AlbumRequestedEvent(userId: user.id));
     return Scaffold(
       appBar: AppBar(
         title: Text(user.username),
@@ -372,8 +372,9 @@ class UserDetailsScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              BlocBuilder<AlbumBloc, AlbumState>(builder: (context, state) {
-                if (state is AlbumsInitialState) {
+              BlocBuilder<AlbumBloc, AlbumState>(
+                  builder: (context, albumState) {
+                if (albumState is AlbumsInitialState) {
                   return Center(
                     child: JumpingDotsProgressIndicator(
                       color: Colors.black,
@@ -381,24 +382,62 @@ class UserDetailsScreen extends StatelessWidget {
                     ),
                   );
                 }
-                if (state is AlbumLoadInProgressState) {
+                if (albumState is AlbumLoadInProgressState) {
                   return Center(
                     child: JumpingText(
                       'Loading...',
                     ),
                   );
                 }
-                if (state is AlbumForUserLoadSuccessState) {
+                if (albumState is AlbumLoadSuccessState) {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: GridView.builder(
-                      itemCount: 1,
+                      itemCount: 3,
                       shrinkWrap: true,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3, crossAxisSpacing: 8),
                       itemBuilder: (context, index) {
-                        return PhotoMiniatures(
-                            albumId: state.albumList[index].id);
+                        var albumId = albumState.albumList[index].id;
+
+                        return PhotoMiniatures(albumId: albumId);
+
+                        // BlocProvider.of<PhotoBloc>(context)
+                        //     .add(PhotoRequestedEvent(albumId: albumId));
+
+                        // return BlocConsumer<PhotoBloc, PhotoState>(
+                        //   listener: (context, photoState) {
+                        //     if (photoState is PhotoLoadSuccessState) {
+                        //       print(
+                        //           "PhotoList: ${photoState.photoList.toString()}");
+                        //     }
+                        //   },
+                        //   builder: (context, photoState) {
+                        //     if (photoState is PhotoLoadSuccessState) {
+                        //       return PhotoMiniatures(
+                        //           photoList: photoState.photoList);
+                        //     }
+
+                        //     if (photoState is PhotoLoadInProgressState) {
+                        //       return Center(
+                        //         child: JumpingText(
+                        //           'Loading...',
+                        //         ),
+                        //       );
+                        //     }
+                        //     if (photoState is PhotoLoadFailureState) {
+                        //       print("stateError: ${photoState.error}");
+                        //       return Center(
+                        //         child: Text("Error loading"),
+                        //       );
+                        //     }
+                        //     if (photoState is PhotoInitial) {
+                        //       BlocProvider.of<PhotoBloc>(context)
+                        //           .add(PhotoRequestedEvent(albumId: albumId));
+                        //     }
+                        //     return Container();
+                        //   },
+                        // );
                         // BlocProvider.of<PhotoBloc>(context).add(
                         //     PhotoRequestedEvent(
                         //         albumId: state.albumList[index].id));

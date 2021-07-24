@@ -36,7 +36,9 @@ class UserRepo {
           // print("~added user from sh_pref: ${User.fromJson(decoded).name}");
         }
       });
-
+      listFromShPref.sort((a, b) {
+        return a.id.compareTo(b.id);
+      });
       return listFromShPref;
     } else {
       var usersFromAPI = await apiClient.fetchUsers();
@@ -49,7 +51,9 @@ class UserRepo {
       });
 
       // print("USER FROM API: " + usersFromAPI.toString());
-
+      usersFromAPI.sort((a, b) {
+        return a.id.compareTo(b.id);
+      });
       return usersFromAPI;
     }
   }

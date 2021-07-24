@@ -67,6 +67,9 @@ List<Post> getPostsByUserIdFromBaseAndTranslateToUI(
     }
   });
 
+  postByUser.sort((a, b) {
+    return a.id.compareTo(b.id);
+  });
   return postByUser;
 }
 

@@ -12,14 +12,6 @@ class AlbumRequestedEvent extends AlbumEvent {
   final int userId;
 
   @override
-  List<Object> get props => [];
-}
-
-class AlbumForUserRequestedEvent extends AlbumEvent {
-  final int userId;
-  AlbumForUserRequestedEvent({required this.userId});
-
-  @override
   List<Object> get props => [
         userId,
       ];
