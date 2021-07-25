@@ -23,10 +23,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  card_swiper: ^1.0.2
   cupertino_icons: ^1.0.2
   email_validator: ^2.0.1
   equatable: ^2.0.3
   flutter_bloc: ^7.0.1
+  getwidget: ^2.0.3
   http: ^0.13.3
   progress_indicators: ^1.0.0
   shared_preferences: ^2.0.6

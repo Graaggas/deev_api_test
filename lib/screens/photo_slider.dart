@@ -1,8 +1,11 @@
+import 'package:card_swiper/card_swiper.dart';
 import 'package:deev_api_test/blocs/bloc/photo_bloc.dart';
 import 'package:deev_api_test/models/photo.dart';
 import 'package:deev_api_test/repo/photo_repo.dart';
 import 'package:deev_api_test/services/api_client.dart';
 import 'package:flutter/material.dart';
+import 'package:getwidget/components/carousel/gf_carousel.dart';
+import 'package:getwidget/components/carousel/gf_items_carousel.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,7 +34,23 @@ class PhotoSlider extends StatelessWidget {
                       .add(PhotoRequestedEvent(albumId: albumId));
 
                   if (state is PhotoLoadSuccessState) {
-                    return Text(state.photoList[0].url);
+                    return Swiper(
+                      itemBuilder: (BuildContext context, int index) {
+                        return Stack(
+                          alignment: AlignmentDirectional.topCenter,
+                          children: [
+                            Image.network(
+                              state.photoList[index].url,
+                              fit: BoxFit.fitWidth,
+                            ),
+                            Text(state.photoList[index].title),
+                          ],
+                        );
+                      },
+                      itemCount: state.photoList.length,
+                      viewportFraction: 1.8,
+                      scale: 0.9,
+                    );
                   }
 
                   if (state is PhotoLoadInProgressState) {
