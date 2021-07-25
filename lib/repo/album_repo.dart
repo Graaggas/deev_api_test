@@ -7,16 +7,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AlbumRepo {
   final APIClient apiClient;
+  final SharedPreferences sharedPreferences;
 
   AlbumRepo({
     required this.apiClient,
+    required this.sharedPreferences,
   });
 
   Future<List<AlbumPhoto>> getAlbums(int userId) async {
     print("==> ALBUMREPO, userId=$userId");
-
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
 
     //? checking data at sh_pref
     Set<String>? checkingDataFromSharedPref = sharedPreferences.getKeys();

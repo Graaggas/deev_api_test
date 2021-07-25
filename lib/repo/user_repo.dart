@@ -6,16 +6,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class UserRepo {
   final APIClient apiClient;
+  final SharedPreferences sharedPreferences;
 
   UserRepo({
     required this.apiClient,
+    required this.sharedPreferences,
   });
 
   Future<List<User>> getUsers() async {
     print("==> USERREPO");
-
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
 
     //? checking data at sh_pref
     Set<String>? checkingDataFromSharedPref = sharedPreferences.getKeys();
@@ -23,17 +22,13 @@ class UserRepo {
     if (checkingDataFromSharedPref.isNotEmpty &&
         checkingDataFromSharedPref
             .any((element) => element.contains("userId"))) {
-      // print("FROM SH_PREF: " + checkingDataFromSharedPref.toString());
-
       List<User> listFromShPref = [];
 
       checkingDataFromSharedPref.forEach((element) {
         if (element.contains("userId")) {
           String? res = sharedPreferences.getString(element);
           Map<String, dynamic> decoded = jsonDecode(res!);
-          // print("data in sh_pref = " + decoded.values.toString());
           listFromShPref.add(User.fromJson(decoded));
-          // print("~added user from sh_pref: ${User.fromJson(decoded).name}");
         }
       });
       listFromShPref.sort((a, b) {
@@ -50,7 +45,6 @@ class UserRepo {
         await sharedPreferences.setString(key, value);
       });
 
-      // print("USER FROM API: " + usersFromAPI.toString());
       usersFromAPI.sort((a, b) {
         return a.id.compareTo(b.id);
       });

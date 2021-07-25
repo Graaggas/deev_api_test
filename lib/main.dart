@@ -17,26 +17,37 @@ import 'package:deev_api_test/services/api_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+void main() async {
   // Bloc.observer = BlocCustomObserver();
+  WidgetsFlutterBinding.ensureInitialized();
+  final SharedPreferences sharedPreferences =
+      await SharedPreferences.getInstance();
 
   final UserRepo userRepo = UserRepo(
     apiClient: APIClient(httpClient: http.Client()),
+    sharedPreferences: sharedPreferences,
   );
 
   // final PhotoRepo photoRepo = PhotoRepo(
   //   apiClient: APIClient(httpClient: http.Client()),
   // );
 
-  final PostRepo postRepo =
-      PostRepo(apiClient: APIClient(httpClient: http.Client()));
+  final PostRepo postRepo = PostRepo(
+    apiClient: APIClient(httpClient: http.Client()),
+    sharedPreferences: sharedPreferences,
+  );
 
-  final CommentRepo commentRepo =
-      CommentRepo(apiClient: APIClient(httpClient: http.Client()));
+  final CommentRepo commentRepo = CommentRepo(
+    apiClient: APIClient(httpClient: http.Client()),
+    sharedPreferences: sharedPreferences,
+  );
 
-  final AlbumRepo albumRepo =
-      AlbumRepo(apiClient: APIClient(httpClient: http.Client()));
+  final AlbumRepo albumRepo = AlbumRepo(
+    apiClient: APIClient(httpClient: http.Client()),
+    sharedPreferences: sharedPreferences,
+  );
 
   runApp(
     MyApp(

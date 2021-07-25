@@ -6,23 +6,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class PostRepo {
   final APIClient apiClient;
+  final SharedPreferences sharedPreferences;
 
   PostRepo({
     required this.apiClient,
+    required this.sharedPreferences,
   });
 
   Future<List<Post>> getPosts(int userId) async {
     print("==> POSTREPO, userId = $userId");
 
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
-
     //? checking data at sh_pref
     Set<String>? checkingDataFromSharedPref = sharedPreferences.getKeys();
 
     if (checkingDataFromSharedPref.isNotEmpty) {
-      // print("FROM SH_PREF: " + checkingDataFromSharedPref.toString());
-
       List<Post> listFromShPref = [];
 
       checkingDataFromSharedPref.forEach((element) {
@@ -32,7 +29,6 @@ class PostRepo {
           for (var item in decoded.entries) {
             if (item.key == "userId" && item.value == userId) {
               listFromShPref.add(Post.fromJson(decoded));
-              // print("~added post from sh_pref ${Post.fromJson(decoded).title}");
             }
           }
         }
@@ -62,8 +58,6 @@ List<Post> getPostsByUserIdFromBaseAndTranslateToUI(
   listFromBase.forEach((element) {
     if (element.userId == id) {
       postByUser.add(element);
-      // print(
-      //     "Post title [userId: ${element.userId.toString()}]: ${element.title}");
     }
   });
 
@@ -84,6 +78,5 @@ Future<List<Post>> getPostListFromAPIAndSaveAtShPref(
     await sharedPreferences.setString(key, value);
   });
 
-  // print("POST FROM API: " + postsFromAPI.toString());
   return postsFromAPI;
 }

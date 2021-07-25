@@ -363,7 +363,10 @@ class UserDetailsScreen extends StatelessWidget {
                     Text("Albums"),
                     Spacer(),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pushNamed('/albums_screen', arguments: user.id);
+                      },
                       child: Text("View all"),
                       style: ElevatedButton.styleFrom(
                         primary: Colors.grey,
@@ -401,91 +404,6 @@ class UserDetailsScreen extends StatelessWidget {
                         var albumId = albumState.albumList[index].id;
 
                         return PhotoMiniatures(albumId: albumId);
-
-                        // BlocProvider.of<PhotoBloc>(context)
-                        //     .add(PhotoRequestedEvent(albumId: albumId));
-
-                        // return BlocConsumer<PhotoBloc, PhotoState>(
-                        //   listener: (context, photoState) {
-                        //     if (photoState is PhotoLoadSuccessState) {
-                        //       print(
-                        //           "PhotoList: ${photoState.photoList.toString()}");
-                        //     }
-                        //   },
-                        //   builder: (context, photoState) {
-                        //     if (photoState is PhotoLoadSuccessState) {
-                        //       return PhotoMiniatures(
-                        //           photoList: photoState.photoList);
-                        //     }
-
-                        //     if (photoState is PhotoLoadInProgressState) {
-                        //       return Center(
-                        //         child: JumpingText(
-                        //           'Loading...',
-                        //         ),
-                        //       );
-                        //     }
-                        //     if (photoState is PhotoLoadFailureState) {
-                        //       print("stateError: ${photoState.error}");
-                        //       return Center(
-                        //         child: Text("Error loading"),
-                        //       );
-                        //     }
-                        //     if (photoState is PhotoInitial) {
-                        //       BlocProvider.of<PhotoBloc>(context)
-                        //           .add(PhotoRequestedEvent(albumId: albumId));
-                        //     }
-                        //     return Container();
-                        //   },
-                        // );
-                        // BlocProvider.of<PhotoBloc>(context).add(
-                        //     PhotoRequestedEvent(
-                        //         albumId: state.albumList[index].id));
-
-                        // return Container(
-                        //   width: double.infinity,
-                        //   decoration: BoxDecoration(
-                        //     color: Colors.black26,
-                        //     border: Border.all(
-                        //       color: Colors.black26,
-                        //       width: 1,
-                        //     ),
-                        //     borderRadius: BorderRadius.circular(4),
-                        //   ),
-                        //   child: BlocConsumer<PhotoBloc, PhotoState>(
-                        //     listener: (context, state) {
-                        //       print("LISTENER");
-                        //     },
-                        //     builder: (context, state) {
-                        //       if (state is PhotoLoadSuccessState) {
-                        //         return Text(
-                        //             state.photoList[index].id.toString());
-                        //       }
-                        //       if (state is PhotoInitial) {
-                        //         return Center(
-                        //           child: JumpingDotsProgressIndicator(
-                        //             color: Colors.black,
-                        //             fontSize: 24,
-                        //           ),
-                        //         );
-                        //       }
-                        //       if (state is PhotoLoadInProgressState) {
-                        //         return Center(
-                        //           child: JumpingText(
-                        //             'Loading...',
-                        //           ),
-                        //         );
-                        //       }
-                        //       if (state is PhotoLsoadFailureState) {
-                        //         return Center(
-                        //           child: Text("Error loading"),
-                        //         );
-                        //       }
-
-                        //       return Container();
-                        //     },
-                        //   ),
-                        // );
                       },
                     ),
                   );

@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:progress_indicators/progress_indicators.dart';
 
 class PhotoMiniatures extends StatelessWidget {
   const PhotoMiniatures({Key? key, required this.albumId}) : super(key: key);
@@ -45,13 +46,22 @@ class PhotoMiniatures extends StatelessWidget {
                 }
                 if (state is PhotoLoadSuccessState) {
                   return GridView.builder(
-                      itemCount: 3,
-                      shrinkWrap: true,
+                      itemCount: 4,
+                      // shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      physics: NeverScrollableScrollPhysics(),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3, crossAxisSpacing: 8),
+                          crossAxisCount: 2, crossAxisSpacing: 2),
                       itemBuilder: (context, index) {
                         return PhotoWidget(photo: state.photoList[index]);
                       });
+                }
+                if (state is PhotoLoadInProgressState) {
+                  return Center(
+                    child: JumpingText(
+                      'Loading...',
+                    ),
+                  );
                 }
                 return Container();
               },

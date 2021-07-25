@@ -6,15 +6,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class CommentRepo {
   final APIClient apiClient;
+  final SharedPreferences sharedPreferences;
 
   CommentRepo({
     required this.apiClient,
+    required this.sharedPreferences,
   });
 
   Future<void> postComment(Comment comment) async {
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
-
     var flagCreateCommentSuccess = await apiClient.postComment(comment);
     print("posting in api server: ${flagCreateCommentSuccess.toString()}");
 
