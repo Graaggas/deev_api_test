@@ -2,7 +2,7 @@ import 'package:deev_api_test/blocs/album_bloc/album_bloc.dart';
 import 'package:deev_api_test/blocs/bloc/photo_bloc.dart';
 
 import 'package:deev_api_test/blocs/comments_bloc/comments_bloc.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 import 'package:deev_api_test/blocs/post_bloc/post_bloc.dart';
 import 'package:deev_api_test/blocs/user_bloc/user_bloc.dart';
 import 'package:deev_api_test/misc/bloc_observer.dart';
@@ -94,6 +94,9 @@ class MyApp extends StatelessWidget {
         title: 'API Demo by Deev Vladimir',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          textTheme: GoogleFonts.actorTextTheme(
+            Theme.of(context).textTheme,
+          ),
           primarySwatch: Colors.blue,
         ),
         initialRoute: "/",

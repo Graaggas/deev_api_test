@@ -1,5 +1,6 @@
 import 'package:deev_api_test/blocs/album_bloc/album_bloc.dart';
 import 'package:deev_api_test/blocs/bloc/photo_bloc.dart';
+import 'package:deev_api_test/misc/colors.dart';
 import 'package:deev_api_test/models/album.dart';
 import 'package:deev_api_test/repo/photo_repo.dart';
 import 'package:deev_api_test/screens/photo_widget.dart';
@@ -17,7 +18,9 @@ class AlbumsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: colorBackground,
       appBar: AppBar(
+        backgroundColor: colorAppbar,
         title: Text("UserId: $userId"),
       ),
       body: BlocBuilder<AlbumBloc, AlbumState>(
@@ -53,9 +56,10 @@ class AlbumsScreen extends StatelessWidget {
                             .pushNamed('/photo_slider', arguments: albumId);
                       },
                       child: Container(
+                        height: MediaQuery.of(context).size.height / 6,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: Colors.black26,
+                          color: colorCard,
                           border: Border.all(
                             color: Colors.black26,
                             width: 1,
@@ -69,17 +73,22 @@ class AlbumsScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(state.albumList[index].title),
-                                ],
+                              Expanded(
+                                child: Text(
+                                  state.albumList[index].title,
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 30,
                               ),
                               Text(
-                                  "Id: ${state.albumList[index].id.toString()}"),
-                              SizedBox(
-                                height: 20,
+                                "Id: ${state.albumList[index].id.toString()}",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                ),
                               ),
                             ],
                           ),

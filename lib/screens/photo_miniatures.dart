@@ -1,4 +1,5 @@
 import 'package:deev_api_test/blocs/bloc/photo_bloc.dart';
+import 'package:deev_api_test/misc/colors.dart';
 import 'package:deev_api_test/repo/photo_repo.dart';
 import 'package:deev_api_test/screens/photo_widget.dart';
 import 'package:deev_api_test/services/api_client.dart';
@@ -21,7 +22,7 @@ class PhotoMiniatures extends StatelessWidget {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Colors.black26,
+        color: colorCard,
         border: Border.all(
           color: Colors.black26,
           width: 1,

@@ -1,5 +1,6 @@
 import 'package:deev_api_test/blocs/album_bloc/album_bloc.dart';
 import 'package:deev_api_test/blocs/user_bloc/user_bloc.dart';
+import 'package:deev_api_test/misc/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:progress_indicators/progress_indicators.dart';
@@ -10,7 +11,9 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: colorBackground,
       appBar: AppBar(
+        backgroundColor: colorAppbar,
         title: Text("Deev API Test"),
       ),
       body: BlocBuilder<UserBloc, UserBlocState>(
@@ -52,8 +55,17 @@ class MainScreen extends StatelessWidget {
                             arguments: state.userList[index]),
                         child: ListTile(
                           leading: Icon(Icons.person),
-                          title: Text(state.userList[index].name),
-                          subtitle: Text(state.userList[index].username),
+                          title: Text(
+                            state.userList[index].name,
+                            style: TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Text(
+                            state.userList[index].username,
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
+                          ),
                         ),
                       ),
                     );

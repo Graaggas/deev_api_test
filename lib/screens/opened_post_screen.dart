@@ -1,5 +1,6 @@
 import 'package:deev_api_test/blocs/comments_bloc/comments_bloc.dart';
 import 'package:deev_api_test/blocs/post_bloc/post_bloc.dart';
+import 'package:deev_api_test/misc/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:progress_indicators/progress_indicators.dart';
@@ -13,7 +14,9 @@ class OpenedPostScreen extends StatelessWidget {
     BlocProvider.of<CommentsBloc>(context)
         .add(CommentsRequestedEvent(postId: postId));
     return Scaffold(
+      backgroundColor: colorBackground,
       appBar: AppBar(
+        backgroundColor: colorAppbar,
         title: Text("Post $postId"),
       ),
       body: SingleChildScrollView(
@@ -30,7 +33,7 @@ class OpenedPostScreen extends StatelessWidget {
                     Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        color: Colors.black26,
+                        color: colorCard,
                         border: Border.all(
                           color: Colors.black26,
                           width: 1,
@@ -46,7 +49,7 @@ class OpenedPostScreen extends StatelessWidget {
                                   .firstWhere((element) => element.id == postId)
                                   .title,
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -58,7 +61,7 @@ class OpenedPostScreen extends StatelessWidget {
                                   .firstWhere((element) => element.id == postId)
                                   .body,
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 18,
                               ),
                             ),
                           ],
@@ -70,7 +73,7 @@ class OpenedPostScreen extends StatelessWidget {
                       child: Text(
                         "Comments:",
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 20,
                         ),
                       ),
                     ),
@@ -107,7 +110,7 @@ class OpenedPostScreen extends StatelessWidget {
                                   child: Container(
                                     width: double.infinity,
                                     decoration: BoxDecoration(
-                                      color: Colors.black26,
+                                      color: colorCard,
                                       border: Border.all(
                                         color: Colors.black26,
                                         width: 1,
@@ -131,24 +134,30 @@ class OpenedPostScreen extends StatelessWidget {
                                             child: Text(
                                               "№ ${state.commentList[index].id}",
                                               style: TextStyle(
-                                                fontSize: 12,
+                                                fontSize: 18,
                                               ),
                                             ),
                                           ),
                                           Text(
                                             state.commentList[index].name,
                                             style: TextStyle(
-                                                fontSize: 14,
+                                                fontSize: 20,
                                                 fontWeight: FontWeight.bold),
                                           ),
                                           Text(
                                             state.commentList[index].email,
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                            ),
                                           ),
                                           SizedBox(
                                             height: 10,
                                           ),
                                           Text(
                                             state.commentList[index].body,
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                            ),
                                           ),
                                         ],
                                       ),

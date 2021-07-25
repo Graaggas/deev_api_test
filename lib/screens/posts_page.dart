@@ -1,4 +1,5 @@
 import 'package:deev_api_test/blocs/post_bloc/post_bloc.dart';
+import 'package:deev_api_test/misc/colors.dart';
 import 'package:deev_api_test/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +13,9 @@ class PostsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: colorBackground,
       appBar: AppBar(
+        backgroundColor: colorAppbar,
         title: Text("Posts"),
       ),
       body: SingleChildScrollView(
@@ -51,7 +54,7 @@ class PostsPage extends StatelessWidget {
                       child: Container(
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: Colors.black26,
+                          color: colorCard,
                           border: Border.all(
                             color: Colors.black26,
                             width: 1,
@@ -68,7 +71,7 @@ class PostsPage extends StatelessWidget {
                               Text(
                                 state.postList[index].title,
                                 style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.bold),
+                                    fontSize: 20, fontWeight: FontWeight.bold),
                               ),
                               SizedBox(
                                 height: 10,
@@ -77,6 +80,9 @@ class PostsPage extends StatelessWidget {
                                 state.postList[index].body,
                                 overflow: TextOverflow.fade,
                                 maxLines: 1,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                ),
                               ),
                             ],
                           ),

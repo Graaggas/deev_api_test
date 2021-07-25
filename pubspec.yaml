@@ -28,7 +28,7 @@ dependencies:
   email_validator: ^2.0.1
   equatable: ^2.0.3
   flutter_bloc: ^7.0.1
-  getwidget: ^2.0.3
+  google_fonts: ^2.1.0
   http: ^0.13.3
   progress_indicators: ^1.0.0
   shared_preferences: ^2.0.6

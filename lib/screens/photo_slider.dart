@@ -43,7 +43,18 @@ class PhotoSlider extends StatelessWidget {
                               state.photoList[index].url,
                               fit: BoxFit.fitWidth,
                             ),
-                            Text(state.photoList[index].title),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: FittedBox(
+                                fit: BoxFit.contain,
+                                child: Text(
+                                  state.photoList[index].title,
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         );
                       },

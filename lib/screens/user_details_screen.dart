@@ -1,6 +1,7 @@
 import 'package:deev_api_test/blocs/album_bloc/album_bloc.dart';
 
 import 'package:deev_api_test/blocs/post_bloc/post_bloc.dart';
+import 'package:deev_api_test/misc/colors.dart';
 
 import 'package:deev_api_test/models/user.dart';
 import 'package:deev_api_test/screens/photo_miniatures.dart';
@@ -19,7 +20,9 @@ class UserDetailsScreen extends StatelessWidget {
     BlocProvider.of<AlbumBloc>(context)
         .add(AlbumRequestedEvent(userId: user.id));
     return Scaffold(
+      backgroundColor: colorBackground,
       appBar: AppBar(
+        backgroundColor: colorAppbar,
         title: Text(user.username),
       ),
       body: SingleChildScrollView(
@@ -40,7 +43,12 @@ class UserDetailsScreen extends StatelessWidget {
                     SizedBox(
                       width: 10,
                     ),
-                    Text(user.name),
+                    Text(
+                      user.name,
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -54,7 +62,12 @@ class UserDetailsScreen extends StatelessWidget {
                     SizedBox(
                       width: 10,
                     ),
-                    Text(user.email),
+                    Text(
+                      user.email,
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -68,7 +81,12 @@ class UserDetailsScreen extends StatelessWidget {
                     SizedBox(
                       width: 10,
                     ),
-                    Text(user.phone),
+                    Text(
+                      user.phone,
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -82,7 +100,12 @@ class UserDetailsScreen extends StatelessWidget {
                     SizedBox(
                       width: 10,
                     ),
-                    Text(user.website),
+                    Text(
+                      user.website,
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -93,7 +116,12 @@ class UserDetailsScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text("Company:"),
+                    Text(
+                      "Company:",
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0, left: 30.0),
                       child: Container(
@@ -111,7 +139,12 @@ class UserDetailsScreen extends StatelessWidget {
                                   SizedBox(
                                     width: 10,
                                   ),
-                                  Text(user.company.name),
+                                  Text(
+                                    user.company.name,
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -125,7 +158,12 @@ class UserDetailsScreen extends StatelessWidget {
                                   SizedBox(
                                     width: 10,
                                   ),
-                                  Text(user.company.bs),
+                                  Text(
+                                    user.company.bs,
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -139,10 +177,16 @@ class UserDetailsScreen extends StatelessWidget {
                                   SizedBox(
                                     width: 10,
                                   ),
-                                  Text(
-                                    "''${user.company.catchPhrase}''",
-                                    style:
-                                        TextStyle(fontStyle: FontStyle.italic),
+                                  Expanded(
+                                    child: FittedBox(
+                                      fit: BoxFit.contain,
+                                      child: Text(
+                                        "''${user.company.catchPhrase}''",
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontStyle: FontStyle.italic),
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -161,7 +205,12 @@ class UserDetailsScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text("Address:"),
+                    Text(
+                      "Address:",
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0, left: 30.0),
                       child: Container(
@@ -179,7 +228,12 @@ class UserDetailsScreen extends StatelessWidget {
                                   SizedBox(
                                     width: 10,
                                   ),
-                                  Text(user.address.city),
+                                  Text(
+                                    user.address.city,
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -193,7 +247,12 @@ class UserDetailsScreen extends StatelessWidget {
                                   SizedBox(
                                     width: 10,
                                   ),
-                                  Text(user.address.street),
+                                  Text(
+                                    user.address.street,
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -209,6 +268,9 @@ class UserDetailsScreen extends StatelessWidget {
                                   ),
                                   Text(
                                     user.address.suite,
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -225,6 +287,9 @@ class UserDetailsScreen extends StatelessWidget {
                                   ),
                                   Text(
                                     user.address.zipcode,
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -241,12 +306,18 @@ class UserDetailsScreen extends StatelessWidget {
                                   ),
                                   Text(
                                     user.address.geo.lat,
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                    ),
                                   ),
                                   SizedBox(
                                     width: 10,
                                   ),
                                   Text(
                                     user.address.geo.lng,
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -264,7 +335,12 @@ class UserDetailsScreen extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text("Posts"),
+                    Text(
+                      "Posts",
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
                     Spacer(),
                     ElevatedButton(
                       onPressed: () {
@@ -273,84 +349,88 @@ class UserDetailsScreen extends StatelessWidget {
                       },
                       child: Text("View all"),
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.grey,
+                        primary: colorAppbar,
                       ),
                     ),
                   ],
                 ),
               ),
-              BlocConsumer<PostBloc, PostState>(listener: (context, state) {
-                // print("listener, state is ${state.toString()}");
-              }, builder: (context, state) {
-                if (state is PostsInitialState) {
-                  return Center(
-                    child: JumpingDotsProgressIndicator(
-                      color: Colors.black,
-                      fontSize: 24,
-                    ),
-                  );
-                }
-                if (state is PostLoadInProgressState) {
-                  return Center(
-                    child: JumpingText(
-                      'Loading...',
-                    ),
-                  );
-                }
-                if (state is PostLoadSuccessState) {
-                  // return Text(state.postList[0].body);
-                  return ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: 3,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(3.0),
-                          child: Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: Colors.black26,
-                              border: Border.all(
-                                color: Colors.black26,
-                                width: 1,
+              BlocConsumer<PostBloc, PostState>(
+                  listener: (context, state) {},
+                  builder: (context, state) {
+                    if (state is PostsInitialState) {
+                      return Center(
+                        child: JumpingDotsProgressIndicator(
+                          color: Colors.black,
+                          fontSize: 24,
+                        ),
+                      );
+                    }
+                    if (state is PostLoadInProgressState) {
+                      return Center(
+                        child: JumpingText(
+                          'Loading...',
+                        ),
+                      );
+                    }
+                    if (state is PostLoadSuccessState) {
+                      // return Text(state.postList[0].body);
+                      return ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: 3,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(3.0),
+                              child: Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: colorCard,
+                                  border: Border.all(
+                                    color: Colors.black26,
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        state.postList[index].title,
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        state.postList[index].body,
+                                        overflow: TextOverflow.fade,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    state.postList[index].title,
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    state.postList[index].body,
-                                    overflow: TextOverflow.fade,
-                                    maxLines: 1,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      });
-                }
-                if (state is PostsLoadFailureState) {
-                  return Center(
-                    child: Text("Error loading"),
-                  );
-                }
-                return Container();
-              }),
+                            );
+                          });
+                    }
+                    if (state is PostsLoadFailureState) {
+                      return Center(
+                        child: Text("Error loading"),
+                      );
+                    }
+                    return Container();
+                  }),
               SizedBox(
                 height: 30,
               ),
@@ -360,7 +440,12 @@ class UserDetailsScreen extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text("Albums"),
+                    Text(
+                      "Albums",
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
                     Spacer(),
                     ElevatedButton(
                       onPressed: () {
@@ -369,7 +454,7 @@ class UserDetailsScreen extends StatelessWidget {
                       },
                       child: Text("View all"),
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.grey,
+                        primary: colorAppbar,
                       ),
                     ),
                   ],
